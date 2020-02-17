@@ -46,6 +46,7 @@ const useStyles = makeStyles(theme => ({
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
+    cursor:"pointer"
   },
   cardMedia: {
     paddingTop: '56.25%', // 16:9
@@ -61,7 +62,7 @@ const useStyles = makeStyles(theme => ({
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-export default function Album() {
+export default function Album(props) {
   const classes = useStyles();
 
   return (
@@ -71,7 +72,7 @@ export default function Album() {
         <Toolbar>
           {/* <CameraIcon className={classes.icon} /> */}
           <Typography variant="h6" color="inherit" noWrap>
-            Album layout
+           Video Gallery
           </Typography>
         </Toolbar>
       </AppBar>
@@ -80,14 +81,12 @@ export default function Album() {
         <div className={classes.heroContent}>
           <Container maxWidth="sm">
             <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-              Album layout
+             Gallery
             </Typography>
             <Typography variant="h5" align="center" color="textSecondary" paragraph>
-              Something short and leading about the collection below—its contents, the creator, etc.
-              Make it short and sweet, but not too short so folks don&apos;t simply skip over it
-              entirely.
+              Choose one of the following videos to start learning.
             </Typography>
-            <div className={classes.heroButtons}>
+            {/* <div className={classes.heroButtons}>
               <Grid container spacing={2} justify="center">
                 <Grid item>
                   <Button variant="contained" color="primary">
@@ -100,7 +99,7 @@ export default function Album() {
                   </Button>
                 </Grid>
               </Grid>
-            </div>
+            </div> */}
           </Container>
         </div>
         <Container className={classes.cardGrid} maxWidth="md">
@@ -108,7 +107,7 @@ export default function Album() {
           <Grid container spacing={4}>
             {cards.map(card => (
               <Grid item key={card} xs={12} sm={6} md={4}>
-                <Card className={classes.card}>
+                <Card className={classes.card} onClick={()=>{props.history.push({pathname:'/playVideo'})}}>
                   <CardMedia
                     className={classes.cardMedia}
                     image="https://source.unsplash.com/random"
