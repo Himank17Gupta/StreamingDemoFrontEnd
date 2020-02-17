@@ -1,4 +1,5 @@
 import React from 'react';
+import  { useState, useEffect } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 // import CameraIcon from '@material-ui/icons/PhotoCamera';
@@ -18,8 +19,8 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+      <Link color="inherit" href="#">
+      BrainMentorsPvtLtd
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -60,10 +61,21 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
 
 export default function Album(props) {
-  const classes = useStyles();
+ const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9]; 
+ const classes = useStyles();
+    useEffect(()=>{
+    console.log('useEffect');
+    getVideoList();
+    })
+ 
+   function getVideoList(){
+    console.log('fetching video list');
+    //axios call
+    //update cards 
+    }
 
   return (
     <React.Fragment>
