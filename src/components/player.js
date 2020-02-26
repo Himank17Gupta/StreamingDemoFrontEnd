@@ -18,6 +18,8 @@ class VideoPlayer extends React.PureComponent{
 		//Initializing reference to error handlers
 		this.onErrorEvent = this.onErrorEvent.bind(this);
 		this.onError = this.onError.bind(this);
+		console.log(props.history.location.state.title);
+		this.title=props.history.location.state.title;
 	}
 
 	onErrorEvent(event) {
@@ -33,7 +35,9 @@ class VideoPlayer extends React.PureComponent{
 	componentDidMount(){
 
 		//Link to MPEG-DASH video
-        var manifestUri = 'http://localhost:4000/user/stream';
+		var manifestUri = 'http://streamingbackend-env.vwqygijpux.us-east-2.elasticbeanstalk.com/user/stream?filename='+this.title;
+		console.log(manifestUri);
+		//stream?filename=abc.txt';
         // 'https://storage.googleapis.com/shaka-demo-assets/angel-one/dash.mpd';
 
 		//Getting reference to video and video container on DOM

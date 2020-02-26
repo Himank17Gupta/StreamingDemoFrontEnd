@@ -14,6 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
+import Axios from 'axios';
 
 function Copyright() {
   return (
@@ -64,20 +65,36 @@ const useStyles = makeStyles(theme => ({
 
 
 export default function Album(props) {
- const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9]; 
+  var [cards,getCards]=useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+  var result=[];
  const classes = useStyles();
     useEffect(()=>{
     console.log('useEffect');
     getVideoList();
+    
     })
- 
+ console.log(cards,result);
    function getVideoList(){
     console.log('fetching video list');
     //axios call
     //update cards 
+    Axios.get('http://streamingbackend-env.vwqygijpux.us-east-2.elasticbeanstalk.com/admin/videos/getAvailableVideos').then(
+      (res)=>{console.log(res.data);
+        result=res.data;
+        if(JSON.stringify(cards)!==JSON.stringify(result)){
+          console.log('inside getcards');
+        getCards(result);
+        }
+        else{
+          console.log(cards,result);
+        }
+      }
+    ).catch(
+      err=>console.log(err)
+    )
     }
-
-  return (
+    
+    return (
     <React.Fragment>
       <CssBaseline />
       <AppBar position="relative">
@@ -119,7 +136,7 @@ export default function Album(props) {
           <Grid container spacing={4}>
             {cards.map(card => (
               <Grid item key={card} xs={12} sm={6} md={4}>
-                <Card className={classes.card} onClick={()=>{props.history.push({pathname:'/playVideo'})}}>
+                <Card className={classes.card} onClick={()=>{props.history.push({pathname:'/playVideo',state:{title:card}})}}>
                   <CardMedia
                     className={classes.cardMedia}
                     image="https://source.unsplash.com/random"
@@ -127,7 +144,7 @@ export default function Album(props) {
                   />
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
-                      Heading
+                      {card}
                     </Typography>
                     <Typography>
                       This is a media card. You can use this section to describe the content.
