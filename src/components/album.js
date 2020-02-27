@@ -65,8 +65,9 @@ const useStyles = makeStyles(theme => ({
 
 
 export default function Album(props) {
-  var [cards,getCards]=useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+  var [cards,getCards]=useState([]);
   var result=[];
+ // console.log("Welcome " + props.history.location.state.cred);
  const classes = useStyles();
     useEffect(()=>{
     console.log('useEffect');
@@ -100,8 +101,11 @@ export default function Album(props) {
       <AppBar position="relative">
         <Toolbar>
           {/* <CameraIcon className={classes.icon} /> */}
-          <Typography variant="h6" color="inherit" noWrap>
+          <Typography variant="h6" color="inherit" align="left" noWrap>
            Video Gallery
+          </Typography>
+          <Typography variant="h6" color="inherit"  align="right" noWrap>
+           Sign Out
           </Typography>
         </Toolbar>
       </AppBar>
@@ -110,11 +114,9 @@ export default function Album(props) {
         <div className={classes.heroContent}>
           <Container maxWidth="sm">
             <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-             Gallery
+            Video Gallery
             </Typography>
-            <Typography variant="h5" align="center" color="textSecondary" paragraph>
-              Choose one of the following videos to start learning.
-            </Typography>
+            
             {/* <div className={classes.heroButtons}>
               <Grid container spacing={2} justify="center">
                 <Grid item>
@@ -139,7 +141,7 @@ export default function Album(props) {
                 <Card className={classes.card} onClick={()=>{props.history.push({pathname:'/playVideo',state:{title:card}})}}>
                   <CardMedia
                     className={classes.cardMedia}
-                    image="https://source.unsplash.com/random"
+                   // image="https://source.unsplash.com/random"
                     title="Image title"
                   />
                   <CardContent className={classes.cardContent}>

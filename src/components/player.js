@@ -97,12 +97,13 @@ class VideoPlayer extends React.PureComponent{
 		Returning video with a container which is required to load shaka player UI.
 		*/
 		return(
-			<div className="video-container" ref={this.videoContainer}>
+			<div className="video-container" ref={this.videoContainer}
+			style={{width:'100%'}}
+			>
                 <video 
                 autoPlay
 					className="shaka-video"
                     ref={this.videoComponent}
-                    style={{width:"640"}}
 					poster="//shaka-player-demo.appspot.com/assets/poster.jpg"
 				/>
 			</div>

@@ -50,9 +50,14 @@ console.log(props);
 
 function LoginRequest(){
   console.log('axios call');
-  console.log(props);
-  props.history.push({pathname:'/DashBoard'});
-  }
+  //axios.get('http://streamingbackend-env.vwqygijpux.us-east-2.elasticbeanstalk.com/auth/google').then(
+  //  res=>{console.log(res.data);
+    }
+  // ).catch(
+  //   err=>console.log(err)
+  // );
+  //console.log(props);
+  
 
   return (
     <Container component="header" maxWidth="md">
@@ -74,6 +79,7 @@ function LoginRequest(){
           Sign in to continue
         </Typography>
         <br/>
+       <a href='http://streamingbackend-env.vwqygijpux.us-east-2.elasticbeanstalk.com/auth/google'> 
         <div >
         <Button props={props} onClick={()=>{LoginRequest()}}>
             <img width="35px" style={{marginTop:'7px', marginRight:'8px'}} alt="Google sign-in" 
@@ -83,6 +89,7 @@ function LoginRequest(){
               </Typography>
         </Button>
         </div>
+        </a>
         <div >
         <Button  onClick={()=>{LoginRequest()}}>
             <img width="35px" style={{marginTop:'7px', marginRight:'8px'}} alt="Google sign-in" 
