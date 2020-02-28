@@ -1,5 +1,6 @@
 import React from 'react';
 import 'shaka-player/dist/controls.css';
+import bmpl from '../assets/bmpl.png';
 const shaka = require('shaka-player/dist/shaka-player.ui.js');
 
 //Creating class component
@@ -98,13 +99,15 @@ class VideoPlayer extends React.PureComponent{
 		*/
 		return(
 			<div className="video-container" ref={this.videoContainer}
-			style={{width:'100%'}}
+			//style={{width:'100%'}}
+			style={{width: '854px', height: '512px' ,cursor: 'none', top: '60px', left : '230px' }}
 			>
                 <video 
                 autoPlay
 					className="shaka-video"
                     ref={this.videoComponent}
-					poster="//shaka-player-demo.appspot.com/assets/poster.jpg"
+					//poster="//shaka-player-demo.appspot.com/assets/poster.jpg"
+					poster={bmpl}
 				/>
 			</div>
 		);

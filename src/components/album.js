@@ -15,6 +15,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
 import Axios from 'axios';
+import bmpl from '../assets/bmpl.png';
 
 function Copyright() {
   return (
@@ -77,8 +78,8 @@ export default function Album(props) {
  console.log(cards,result);
    function getVideoList(){
     console.log('fetching video list');
-    //axios call
-    //update cards 
+    
+    //Axios call for user details...then(
     Axios.get('http://streamingbackend-env.vwqygijpux.us-east-2.elasticbeanstalk.com/admin/videos/getAvailableVideos').then(
       (res)=>{console.log(res.data);
         result=res.data;
@@ -102,9 +103,13 @@ export default function Album(props) {
         <Toolbar>
           {/* <CameraIcon className={classes.icon} /> */}
           <Typography variant="h6" color="inherit" align="left" noWrap>
-           Video Gallery
+           Welcome username
           </Typography>
-          <Typography variant="h6" color="inherit"  align="right" noWrap>
+          &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+          &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+          &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+          &emsp;&emsp;
+          <Typography variant="h6" color="inherit" style={{cursor:'pointer'}} align="right" noWrap>
            Sign Out
           </Typography>
         </Toolbar>
@@ -141,7 +146,8 @@ export default function Album(props) {
                 <Card className={classes.card} onClick={()=>{props.history.push({pathname:'/playVideo',state:{title:card}})}}>
                   <CardMedia
                     className={classes.cardMedia}
-                   // image="https://source.unsplash.com/random"
+                    image={bmpl}
+                    //"https://source.unsplash.com/random"
                     title="Image title"
                   />
                   <CardContent className={classes.cardContent}>
