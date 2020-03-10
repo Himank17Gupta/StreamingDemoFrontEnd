@@ -1,13 +1,30 @@
 import React from 'react';
+import { Redirect } from 'react-router';
 import 'shaka-player/dist/controls.css';
 import bmpl from '../assets/bmpl.png';
+import { AppBar, Typography, Toolbar, Link } from '@material-ui/core';
 const shaka = require('shaka-player/dist/shaka-player.ui.js');
+
+
+
+function Copyright() {
+		return (
+		  <Typography variant="body2" color="textSecondary" align="center">
+			{'Copyright © '}
+			<Link color="inherit" href="#">
+			BrainMentorsPvtLtd
+			</Link>{' '}
+			{new Date().getFullYear()}
+			{'.'}
+		  </Typography>
+		);
+	  }
 
 //Creating class component
 class VideoPlayer extends React.PureComponent{
 
 	constructor(props){
-
+        console.log(props);
 		super(props);
 
 		//Creating reference to store video component on DOM
@@ -19,10 +36,17 @@ class VideoPlayer extends React.PureComponent{
 		//Initializing reference to error handlers
 		this.onErrorEvent = this.onErrorEvent.bind(this);
 		this.onError = this.onError.bind(this);
-		console.log(props.history.location.state.title);
+		console.log(props.history.location.state);
+		this.title=undefined;
+		this.username=undefined;
+		if(props.history.location.state!=undefined){
 		this.title=props.history.location.state.title;
+		this.username=props.history.location.state.username;
+		}
+		
 	}
 
+	
 	onErrorEvent(event) {
 	  // Extract the shaka.util.Error object from the event.
 	  this.onError(event.detail);
@@ -33,8 +57,14 @@ class VideoPlayer extends React.PureComponent{
 	  console.error('Error code', error.code, 'object', error);
 	}
 
+	componentWillMount(){
+		console.log(this.title,this.username);
+		return <Redirect to='/somewhere'/>;
+	}
+
 	componentDidMount(){
 
+		if(this.title&&this.username){
 		//Link to MPEG-DASH video
 		var manifestUri = 'http://streamingbackend-env.vwqygijpux.us-east-2.elasticbeanstalk.com/user/stream?filename='+this.title;
 		console.log(manifestUri);
@@ -91,18 +121,40 @@ class VideoPlayer extends React.PureComponent{
 	  	}).catch(this.onError);  // onError is executed if the asynchronous load fails.
 
 	}
+	}
 
 	render(){
-
+		
+		if(this.username==undefined||this.title==undefined){
+			return(<Redirect to="/"></Redirect>);
+		}
 		/*
 		Returning video with a container which is required to load shaka player UI.
 		*/
+		else{
 		return(
+			<>
+		  <AppBar position="relative">
+           <Toolbar>
+          <Typography variant="h6" color="inherit" align="left" noWrap>
+           {this.username}
+          </Typography>
+		  &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+          &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+          &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+          
+          <Typography variant="h6" color="inherit" style={{cursor:'pointer',textAlign:'right'}} align="right" 
+            onClick={()=>{this.props.history.push({pathname:'/DashBoard'})}} noWrap>
+            Video Gallery
+          </Typography>
+          </Toolbar>
+          </AppBar>
 			<div className="video-container" ref={this.videoContainer}
 			//style={{width:'100%'}}
-			style={{width: '854px', height: '512px' ,cursor: 'none', top: '60px', left : '230px' }}
+			style={{width: '854px', height: '512px' ,cursor: 'none', top: '30px', left : '230px' }}
 			>
-                <video 
+				<video 
+				style={{width: '854px', height: '512px' ,cursor: 'none', top: '30px', left : '230px' }}
                 autoPlay
 					className="shaka-video"
                     ref={this.videoComponent}
@@ -110,7 +162,22 @@ class VideoPlayer extends React.PureComponent{
 					poster={bmpl}
 				/>
 			</div>
+			<br/>
+			<br/>
+		<footer 
+		//className={classes.footer}
+		>
+        <Typography variant="h6" align="center" gutterBottom>
+          Brain Mentors Pvt Limited
+        </Typography>
+        <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
+          Something here to give the footer a purpose!
+        </Typography>
+        <Copyright />
+      </footer>
+			</>
 		);
+		}
 	}
 }
 

@@ -16,6 +16,9 @@ import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
 import Axios from 'axios';
 import bmpl from '../assets/bmpl.png';
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+
 
 function Copyright() {
   return (
@@ -67,35 +70,88 @@ const useStyles = makeStyles(theme => ({
 
 export default function Album(props) {
   var [cards,getCards]=useState([]);
+  var [user,getUser]=useState(' ');
   var result=[];
- // console.log("Welcome " + props.history.location.state.cred);
+  var isLoggedIn=false;     // state
+
  const classes = useStyles();
     useEffect(()=>{
     console.log('useEffect');
     getVideoList();
-    
     })
- console.log(cards,result);
-   function getVideoList(){
+
+   console.log(cards,result);
+  
+   function getVideoList() {
+  
     console.log('fetching video list');
-    
-    //Axios call for user details...then(
-    Axios.get('http://streamingbackend-env.vwqygijpux.us-east-2.elasticbeanstalk.com/admin/videos/getAvailableVideos').then(
-      (res)=>{console.log(res.data);
-        result=res.data;
-        if(JSON.stringify(cards)!==JSON.stringify(result)){
-          console.log('inside getcards');
-        getCards(result);
+     
+    Axios.post('http://streamingbackend-env.vwqygijpux.us-east-2.elasticbeanstalk.com/user/isUserLoggedIn',{},{withCredentials:true}).then(
+        (res)=>{console.log(res.data);
+
+          if(res.data==true){
+             
+            console.log('axios get username and get available videos');
+              Axios.get('http://streamingbackend-env.vwqygijpux.us-east-2.elasticbeanstalk.com/user/userDetails',{withCredentials:true}).then(
+             (res)=>{console.log(res.data);
+              if(user!==res.data){
+              getUser(res.data);
+             }
+             else{
+             console.log(user);
+             }
+             }).catch(
+             err=>console.log(err)
+             )
+
+
+             Axios.get('http://streamingbackend-env.vwqygijpux.us-east-2.elasticbeanstalk.com/user/getAvailableVideos',
+             {withCredentials:true}).then((res)=>{
+                 console.log(res.data);
+                 result=res.data;
+                 if(JSON.stringify(cards)!==JSON.stringify(result)){
+                 console.log('inside getcards');
+                getCards(result);
+                 }
+                 else{
+                 console.log(cards,result);
+                 }
+                }).catch(
+                err=>console.log(err) 
+               )
+          }
+          else{
+            console.log('push history to login page');
+            props.history.push({pathname:'/'});
+          }
         }
-        else{
-          console.log(cards,result);
-        }
+      ).catch(
+       err=>console.log(err)
+      )
+      
       }
-    ).catch(
-      err=>console.log(err)
-    )
-    }
-    
+
+      function submit(){
+        confirmAlert({
+          title: 'Confirm to Sign Out',
+          message: 'This will log you out from all the sessions',
+          buttons: [
+            {
+              label: 'Yes',
+              onClick: () => { 
+              Axios.get('http://streamingbackend-env.vwqygijpux.us-east-2.elasticbeanstalk.com/auth/logout').then
+              ((res)=>{console.log(res.data)}).catch(err=>console.log(err));
+              }
+            },
+            {
+              label: 'No',
+              onClick: () => console.log('signout discarded')
+            }
+          ]
+        });
+      }
+
+
     return (
     <React.Fragment>
       <CssBaseline />
@@ -103,13 +159,14 @@ export default function Album(props) {
         <Toolbar>
           {/* <CameraIcon className={classes.icon} /> */}
           <Typography variant="h6" color="inherit" align="left" noWrap>
-           Welcome username
+           Welcome {user}
           </Typography>
           &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
           &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
           &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
           &emsp;&emsp;
-          <Typography variant="h6" color="inherit" style={{cursor:'pointer'}} align="right" noWrap>
+          <Typography variant="h6" color="inherit" style={{cursor:'pointer',textAlign:'right'}} align="right" 
+            onClick={submit} noWrap>
            Sign Out
           </Typography>
         </Toolbar>
@@ -122,20 +179,6 @@ export default function Album(props) {
             Video Gallery
             </Typography>
             
-            {/* <div className={classes.heroButtons}>
-              <Grid container spacing={2} justify="center">
-                <Grid item>
-                  <Button variant="contained" color="primary">
-                    Main call to action
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button variant="outlined" color="primary">
-                    Secondary action
-                  </Button>
-                </Grid>
-              </Grid>
-            </div> */}
           </Container>
         </div>
         <Container className={classes.cardGrid} maxWidth="md">
@@ -143,7 +186,7 @@ export default function Album(props) {
           <Grid container spacing={4}>
             {cards.map(card => (
               <Grid item key={card} xs={12} sm={6} md={4}>
-                <Card className={classes.card} onClick={()=>{props.history.push({pathname:'/playVideo',state:{title:card}})}}>
+                <Card className={classes.card} onClick={()=>{props.history.push({pathname:'/playVideo',state:{title:card,username:user}})}}>
                   <CardMedia
                     className={classes.cardMedia}
                     image={bmpl}
@@ -155,7 +198,7 @@ export default function Album(props) {
                       {card}
                     </Typography>
                     <Typography>
-                      This is a media card. You can use this section to describe the content.
+                      Description title : dummy video for testing purposes 
                     </Typography>
                   </CardContent>
                   <CardActions>
@@ -175,7 +218,7 @@ export default function Album(props) {
       {/* Footer */}
       <footer className={classes.footer}>
         <Typography variant="h6" align="center" gutterBottom>
-          Footer
+          Brain Mentors Pvt Limited
         </Typography>
         <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
           Something here to give the footer a purpose!
