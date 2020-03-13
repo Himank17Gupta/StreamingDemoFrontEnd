@@ -13,6 +13,7 @@ export default class App extends React.Component{
     super(props);
   }
   render(){
+    console.log('hey from app.js');
   return(
   <BrowserRouter>
   <Container  maxWidth="xl"> 
