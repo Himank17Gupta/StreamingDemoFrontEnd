@@ -86,13 +86,13 @@ export default function Album(props) {
   
     console.log('fetching video list');
      
-    Axios.post('http://streamingbackend-env.vwqygijpux.us-east-2.elasticbeanstalk.com/user/isUserLoggedIn',{},{withCredentials:true}).then(
+    Axios.post('http://ec2-18-219-162-155.us-east-2.compute.amazonaws.com:3000/user/isUserLoggedIn',{},{withCredentials:true}).then(
         (res)=>{console.log(res.data);
 
           if(res.data==true){
              
             console.log('axios get username and get available videos');
-              Axios.get('http://streamingbackend-env.vwqygijpux.us-east-2.elasticbeanstalk.com/user/userDetails',{withCredentials:true}).then(
+              Axios.get('http://ec2-18-219-162-155.us-east-2.compute.amazonaws.com:3000/user/userDetails',{withCredentials:true}).then(
              (res)=>{console.log(res.data);
               if(user!==res.data){
               getUser(res.data);
@@ -105,7 +105,7 @@ export default function Album(props) {
              )
 
 
-             Axios.get('http://streamingbackend-env.vwqygijpux.us-east-2.elasticbeanstalk.com/user/getAvailableVideos',
+             Axios.get('http://ec2-18-219-162-155.us-east-2.compute.amazonaws.com:3000/user/getAvailableVideos',
              {withCredentials:true}).then((res)=>{
                  console.log(res.data);
                  result=res.data;
@@ -139,8 +139,14 @@ export default function Album(props) {
             {
               label: 'Yes',
               onClick: () => { 
-              Axios.get('http://streamingbackend-env.vwqygijpux.us-east-2.elasticbeanstalk.com/auth/logout').then
-              ((res)=>{console.log(res.data)}).catch(err=>console.log(err));
+              
+                window.location.href='http://ec2-18-219-162-155.us-east-2.compute.amazonaws.com:3000/auth/logout'
+             
+              // Axios.get('http://ec2-18-219-162-155.us-east-2.compute.amazonaws.com:3000/auth/logout');
+               //.then
+              // ((res)=>{console.log(res.data)
+              //   props.history.push({pathname:'/'});
+              // }).catch(err=>console.log(err));
               }
             },
             {
@@ -165,10 +171,15 @@ export default function Album(props) {
           &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
           &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
           &emsp;&emsp;
+         
           <Typography variant="h6" color="inherit" style={{cursor:'pointer',textAlign:'right'}} align="right" 
-            onClick={submit} noWrap>
+            onClick={submit}
+             noWrap>
+               
            Sign Out
+                
           </Typography>
+          
         </Toolbar>
       </AppBar>
       <main>
@@ -221,7 +232,8 @@ export default function Album(props) {
           Brain Mentors Pvt Limited
         </Typography>
         <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-          Something here to give the footer a purpose!
+        23, 1st & 2nd Floor, Block-C, Pocket-9, Rohini Sector-7 Delhi-110085
+<br/>   Oppposite to Metro Pillar No-400
         </Typography>
         <Copyright />
       </footer>

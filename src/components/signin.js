@@ -50,10 +50,11 @@ export default function SignIn(props) {
 
   useEffect(()=>{
     console.log('useEffect-- checking for logged in');
-    axios.post('http://streamingbackend-env.vwqygijpux.us-east-2.elasticbeanstalk.com/user/isUserLoggedIn',{},{withCredentials:true}).then(
+    axios.post('http://ec2-18-219-162-155.us-east-2.compute.amazonaws.com:3000/user/isUserLoggedIn',{},{withCredentials:true}).then(
         res=>{console.log(res.data);
-          if(res.data=='true'){
+          if(res.data==true){
             console.log('push history to dashboard');
+            props.history.push({pathname:'/DashBoard'});
           }
         }
        ).catch(
@@ -89,7 +90,7 @@ return (
          Please Sign in to Continue
         </Typography> */}
         <br/>
-       <a href='http://streamingbackend-env.vwqygijpux.us-east-2.elasticbeanstalk.com/auth/google'> 
+       <a href='http://ec2-18-219-162-155.us-east-2.compute.amazonaws.com:3000/auth/google'> 
         <div >
         <Button props={props} onClick={()=>{LoginRequest()}}>
             <img width="35px" style={{marginTop:'7px', marginRight:'8px'}} alt="Google sign-in" 
@@ -100,7 +101,7 @@ return (
         </Button>
         </div>
         </a>
-        <a href='http://streamingbackend-env.vwqygijpux.us-east-2.elasticbeanstalk.com/auth/google'>
+        <a href='http://ec2-18-219-162-155.us-east-2.compute.amazonaws.com:3000/auth/google'>
         <div >
         <Button  onClick={()=>{LoginRequest()}}>
             <img width="35px" style={{marginTop:'7px', marginRight:'8px'}} alt="Google sign-in" 

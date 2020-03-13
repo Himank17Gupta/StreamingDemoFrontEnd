@@ -66,7 +66,7 @@ class VideoPlayer extends React.PureComponent{
 
 		if(this.title&&this.username){
 		//Link to MPEG-DASH video
-		var manifestUri = 'http://streamingbackend-env.vwqygijpux.us-east-2.elasticbeanstalk.com/user/stream?filename='+this.title;
+		var manifestUri = 'http://ec2-18-219-162-155.us-east-2.compute.amazonaws.com:3000/user/stream?filename='+this.title;
 		console.log(manifestUri);
 		//stream?filename=abc.txt';
         // 'https://storage.googleapis.com/shaka-demo-assets/angel-one/dash.mpd';
@@ -171,7 +171,8 @@ class VideoPlayer extends React.PureComponent{
           Brain Mentors Pvt Limited
         </Typography>
         <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-          Something here to give the footer a purpose!
+		23, 1st & 2nd Floor, Block-C, Pocket-9, Rohini Sector-7 Delhi-110085
+<br/>   Oppposite to Metro Pillar No-400
         </Typography>
         <Copyright />
       </footer>
